@@ -126,14 +126,14 @@ int main() {
 	int n;
 	std::cin >> n;
 	for (int i = 0; i < n; i++) {
-		//ÊäÈëËùÓĞÊı¾İ
+		//è¾“å…¥æ‰€æœ‰æ•°æ®
 		char op;
 		std::cin >> op;
 		std::string str1, str2;
 		std::cin >> str1;
 		std::cin >> str2;
 		
-		//×ª»»ÈëÁ´±í
+		//è½¬æ¢å…¥é“¾è¡¨
 		Node* head1 = NULL;
 		Node* head2 = NULL;
 		if (str1[0] == '-') {
@@ -169,7 +169,6 @@ int main() {
 		reverse(head2);
 
 		Node* result = nullptr;
-		head1 = nullptr;
 		if (op == '+')
 			result = add(head1, head2);
 		else
