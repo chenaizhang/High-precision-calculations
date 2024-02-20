@@ -12,6 +12,134 @@ struct Node {
 int compare(Node*& num1, Node*& num2);
 bool ispositive(Node* head);
 void negation(Node*& head);
+bool neg_big(Node* head1, Node* head2);
+int delete0(Node*& head, int x);
+void append(Node*& head, int num);
+void reverse(Node*& head);
+bool toosmall(Node*& head);
+Node* add(Node* num1, Node* num2);
+Node* sub(Node* num1, Node* num2);
+Node* subforchu(Node*& num1, Node*& num2);
+void abs_(Node*& head);
+bool dayu0(Node*& head);
+Node* cheng(Node*& head1, Node*& head2);
+int length(Node* head);
+void print_1(Node* head, int x);
+void print_2(Node* head, int x);
+bool is0(Node* head);
+Node* chu(Node*& head1, Node*& head2);
+void clear(Node* head);
+int xiaoshudian(std::string str);
+
+int main() {
+	//è¾“å…¥æ•°æ®è¯æ•°
+	int n;
+	std::cin >> n;
+
+	for (int i = 0; i < n; i++) {
+		//è¾“å…¥æ‰€æœ‰æ•°æ®
+		char op;
+		std::cin >> op;
+		std::string str1, str2;
+		std::cin >> str1;
+		std::cin >> str2;
+
+		//åˆ¤æ–­ä¸ºå‡ ä½å°æ•°
+		int x1, x2;
+		x1 = xiaoshudian(str1);
+		x2 = xiaoshudian(str2);
+		int x;
+		if (op == '+' || op == '-') {
+			x = std::max(x1, x2);
+			while (x1 < x) {
+				str1 += '0';
+				x1++;
+			}
+			while (x2 < x) {
+				str2 += '0';
+				x2++;
+			}
+		}
+		
+		//è½¬æ¢å…¥é“¾è¡¨
+		Node* head1 = NULL;
+		Node* head2 = NULL;
+		if (str1[0] == '-') {
+			for (size_t i = 1; i < str1.length(); i++) {
+				if (str1[i] != ',' && str1[i] != '.') {
+					append(head1, -(str1[i] - '0'));
+				}
+			}
+		}
+		else {
+			for (char c : str1) {
+				if (c != ',' && c != '.') {
+					append(head1, (c - '0'));
+				}
+			}
+		}
+		if (str2[0] == '-') {
+			for (size_t i = 1; i < str2.length(); i++) {
+				if (str2[i] != ',' && str2[i] != '.') {
+					append(head2, -(str2[i] - '0'));
+				}
+			}
+		}
+		else {
+			for (char c : str2) {
+				if (c != ',' && c != '.') {
+					append(head2, (c - '0'));
+				}
+			}
+		}
+
+		//åè½¬é“¾è¡¨ï¼Œå¼€å§‹æ¨¡æ‹Ÿæ‰‹ç®—
+		reverse(head1);
+		reverse(head2);
+
+		Node* result = nullptr;
+		if (op == '*') {
+			result = cheng(head1, head2);
+			x = x1 + x2;
+			x = delete0(result, x);
+			reverse(result);
+			delete0(result, length(result) - x - 1);
+			print_2(result, x);
+		}
+		else if(op=='/'){
+			if (toosmall(head2)) {
+				std::cout << "ERROR" << std::endl;
+			}
+			else {
+				x = 20 + x1 - x2;
+				result = chu(head1, head2);
+				x = delete0(result, x);
+				reverse(result);
+				delete0(result, length(result) - x - 1);
+				print_2(result, x);
+			}
+		}
+		else if(op == '+') {
+			result = add(head1, head2);
+			x = delete0(result, x);
+			reverse(result);
+			delete0(result, length(result) - x);
+			print_1(result, x);
+		}
+		else if(op=='-'){
+			result = sub(head1, head2);
+			x = delete0(result, x);
+			reverse(result);
+			delete0(result, length(result) - x);
+			print_1(result, x);
+		}
+
+		clear(result);
+ 		clear(head1);
+		clear(head2);
+	}
+	return 0;
+}
 
 bool neg_big(Node* head1, Node* head2) {
 	Node* pos, * neg;
@@ -24,10 +152,10 @@ bool neg_big(Node* head1, Node* head2) {
 		neg = head1;
 	}
 	negation(neg);
-	if (compare(pos, neg) == -1){
+	if (compare(pos, neg) == -1) {
 		negation(neg);
 		return 1;
-}
+	}
 	negation(neg);
 	return 0;
 }
@@ -49,8 +177,7 @@ void negation(Node*& head) {
 		temp = temp->next;
 	}
 }
-
-//É¾³ı·´×ªºóµÄÁ´±íÍ·²¿µÄ0£¬²¢·µ»ØĞ¡ÊıµãºóÎ»Êı
+//åˆ é™¤åè½¬åçš„é“¾è¡¨å¤´éƒ¨çš„0ï¼Œå¹¶è¿”å›å°æ•°ç‚¹åä½æ•°
 int delete0(Node*& head, int x) {
 	while (x > 0) {
 		if (head->num == 0 && head->next != nullptr) {
@@ -111,7 +238,7 @@ Node* add(Node* num1, Node* num2) {
 	int carry = 0;
 	int tuiwei = 0;
 
-	if (int((ispositive(num1)) + int(ispositive(num2)) == 1&& neg_big(num1,num2))|| int((ispositive(num1))) + int(ispositive(num2)) == 0) {
+	if (int((ispositive(num1)) + int(ispositive(num2)) == 1 && neg_big(num1, num2)) || int((ispositive(num1))) + int(ispositive(num2)) == 0) {
 		negation(num1);
 		negation(num2);
 		result = add(num1, num2);
@@ -271,7 +398,7 @@ Node* cheng(Node*& head1, Node*& head2) {
 }
 
 int length(Node* head) {
-	//nÎªÁ´±í³¤¶È
+	//nä¸ºé“¾è¡¨é•¿åº¦
 	Node* temp = head;
 	int n = 0;
 	while (temp) {
@@ -360,7 +487,7 @@ int compare(Node*& num1, Node*& num2) {
 	int len1 = length(num1);
 	int len2 = length(num2);
 
-	// Èç¹ûÊı×Ö³¤¶È²»Í¬£¬·µ»Ø³¤¶È¸ü³¤µÄÊıÖµÎª½Ï´óÖµ
+	// å¦‚æœæ•°å­—é•¿åº¦ä¸åŒï¼Œè¿”å›é•¿åº¦æ›´é•¿çš„æ•°å€¼ä¸ºè¾ƒå¤§å€¼
 	if (len1 > len2) {
 		reverse(num1);
 		reverse(num2);
@@ -371,7 +498,7 @@ int compare(Node*& num1, Node*& num2) {
 		reverse(num2);
 		return -1;
 	}
-	// ³¤¶ÈÏàÍ¬Ê±£¬ÖğÎ»±È½ÏÊıÖµ
+	// é•¿åº¦ç›¸åŒæ—¶ï¼Œé€ä½æ¯”è¾ƒæ•°å€¼
 	Node* temp1 = num1;
 	Node* temp2 = num2;
 	while (temp1 && temp2) {
@@ -390,7 +517,7 @@ int compare(Node*& num1, Node*& num2) {
 	}
 	reverse(num1);
 	reverse(num2);
-	return 0;  // ÊıÖµÏàµÈ
+	return 0;  // æ•°å€¼ç›¸ç­‰
 }
 
 bool is0(Node* head) {
@@ -532,119 +659,9 @@ void clear(Node* head) {
 int xiaoshudian(std::string str) {
 	int i = 1;
 	for (char c : str) {
-		if (c == '.') 
+		if (c == '.')
 			return int(str.length() - i);
 		i++;
-	}
-	return 0;
-}
-
-int main() {
-	//ÊäÈëÊı¾İ´ÊÊı
-	int n;
-	std::cin >> n;
-
-	for (int i = 0; i < n; i++) {
-		//ÊäÈëËùÓĞÊı¾İ
-		char op;
-		std::cin >> op;
-		std::string str1, str2;
-		std::cin >> str1;
-		std::cin >> str2;
-
-		//ÅĞ¶ÏÎª¼¸Î»Ğ¡Êı
-		int x1, x2;
-		x1 = xiaoshudian(str1);
-		x2 = xiaoshudian(str2);
-		int x;
-		if (op == '+' || op == '-') {
-			x = std::max(x1, x2);
-			while (x1 < x) {
-				str1 += '0';
-				x1++;
-			}
-			while (x2 < x) {
-				str2 += '0';
-				x2++;
-			}
-		}
-		
-		//×ª»»ÈëÁ´±í
-		Node* head1 = NULL;
-		Node* head2 = NULL;
-		if (str1[0] == '-') {
-			for (size_t i = 1; i < str1.length(); i++) {
-				if (str1[i] != ',' && str1[i] != '.') {
-					append(head1, -(str1[i] - '0'));
-				}
-			}
-		}
-		else {
-			for (char c : str1) {
-				if (c != ',' && c != '.') {
-					append(head1, (c - '0'));
-				}
-			}
-		}
-		if (str2[0] == '-') {
-			for (size_t i = 1; i < str2.length(); i++) {
-				if (str2[i] != ',' && str2[i] != '.') {
-					append(head2, -(str2[i] - '0'));
-				}
-			}
-		}
-		else {
-			for (char c : str2) {
-				if (c != ',' && c != '.') {
-					append(head2, (c - '0'));
-				}
-			}
-		}
-
-		//·´×ªÁ´±í£¬¿ªÊ¼Ä£ÄâÊÖËã
-		reverse(head1);
-		reverse(head2);
-
-		Node* result = nullptr;
-		if (op == '*') {
-			result = cheng(head1, head2);
-			x = x1 + x2;
-			x = delete0(result, x);
-			reverse(result);
-			delete0(result, length(result) - x - 1);
-			print_2(result, x);
-		}
-		else if(op=='/'){
-			if (toosmall(head2)) {
-				std::cout << "ERROR" << std::endl;
-			}
-			else {
-				x = 20 + x1 - x2;
-				result = chu(head1, head2);
-				x = delete0(result, x);
-				reverse(result);
-				delete0(result, length(result) - x - 1);
-				print_2(result, x);
-			}
-		}
-		else if(op == '+') {
-			result = add(head1, head2);
-			x = delete0(result, x);
-			reverse(result);
-			delete0(result, length(result) - x);
-			print_1(result, x);
-		}
-		else if(op=='-'){
-			result = sub(head1, head2);
-			x = delete0(result, x);
-			reverse(result);
-			delete0(result, length(result) - x);
-			print_1(result, x);
-		}
-
-		clear(result);
- 		clear(head1);
-		clear(head2);
 	}
 	return 0;
 }
