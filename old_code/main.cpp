@@ -439,45 +439,52 @@ void print_1(Node* head, int x) {
 }
 
 void print_2(Node* head, int x) {
-	int n = length(head);
-	Node* temp = head;
-	std::cout << temp->num;
-	temp = temp->next;
-	int i = 1;
-	int j = (n - x) / 3;
-	int c = INT_MAX;
-	if (i == n - x && x != 0) {
-		c = 9;
-		std::cout << '.';
-	}
-	while (temp && c > 0) {
-		c--;
-		if (j <= 0 || i % 3 != (n - x) % 3 || n - x <= 3)
-			std::cout << abs(temp->num);
-		else if (i < n - x) {
-			std::cout << ',' << abs(temp->num);
-			j--;
-		}
-		else std::cout << abs(temp->num);
+    if (!head) { std::cout << "0\n"; return; }  // 防御：空链表
 
-		i++;
-		temp = temp->next;
-		if (i == n - x && x != 0) {
-			std::cout << '.';
-			c = 9;
-		}
-	}
-	if (c == 0) {
-		if (!temp->next)
-			std::cout << abs(temp->num);
-		else if (abs(temp->next->num) < 5)
-			std::cout << abs(temp->num);
-		else
-			std::cout << 1 + abs(temp->num);
-	}
+    int n = length(head);
+    Node* temp = head;
 
-	std::cout << std::endl;
+    std::cout << temp->num;
+    temp = temp->next;
+
+    int i = 1;
+    int j = (n - x) / 3;
+    int c = INT_MAX;
+
+    if (i == n - x && x != 0) {
+        c = 9;
+        std::cout << '.';
+    }
+
+    while (temp && c > 0) {
+        c--;
+        if (j <= 0 || i % 3 != (n - x) % 3 || n - x <= 3) std::cout << abs(temp->num);
+        else if (i < n - x) { std::cout << ',' << abs(temp->num); j--; }
+        else std::cout << abs(temp->num);
+
+        i++;
+        temp = temp->next;
+
+        if (i == n - x && x != 0) {
+            std::cout << '.';
+            c = 9;
+        }
+    }
+
+    // 关键：c==0 时 temp 可能已经 nullptr
+    if (c == 0) {
+        if (!temp) {                 // 没有更多位用于舍入：直接结束即可
+            std::cout << std::endl;
+            return;
+        }
+        if (!temp->next) std::cout << abs(temp->num);
+        else if (abs(temp->next->num) < 5) std::cout << abs(temp->num);
+        else std::cout << 1 + abs(temp->num);
+    }
+
+    std::cout << std::endl;
 }
+
 
 int compare(Node*& num1, Node*& num2) {
 	reverse(num1);
