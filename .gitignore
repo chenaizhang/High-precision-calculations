@@ -47,3 +47,6 @@ main
 # Rust
 */target/
 **/*.rs.bk
+
+# 验证结果正确
+output/
