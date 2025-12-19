@@ -1,0 +1,3 @@
+avg_real 2.627000
+avg_user 1.795000
+avg_sys  0.773000

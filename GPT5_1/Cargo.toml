@@ -1,0 +1,19 @@
+ [package]
+ name = "high_precision_calculations"
+ version = "0.1.0"
+ edition = "2021"
+ authors = ["GPT-5.1"]
+ description = "高精度十进制四则运算（跨语言迁移自旧 C++ 链表实现，保留外部行为并消除代码异味）"
+ license = "MIT"
+
+ [lib]
+ name = "high_precision_calculations"
+ path = "src/lib.rs"
+
+ [[bin]]
+ name = "high_precision_calculations"
+ path = "src/main.rs"
+
+ [dependencies]
+
+
