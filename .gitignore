@@ -43,3 +43,7 @@
 # 可执行文件
 calc
 main
+
+# Rust
+*/target/
+**/*.rs.bk

@@ -37,21 +37,40 @@
 使用 g++：
 
 ```bash
+cd old_code
 g++ -O2 -DNDEBUG -std=c++17 main.cpp -o calc
 ```
 
-### 运行测试1,000,000次，记录测试速度
+### 运行1,000,000条数据，测试10次，记录平均用时
 
 ```bash
-/usr/bin/time -p ./calc < llm_crosslang_test_input_1000000.txt > /dev/null 2> time.txt
+
+
+: > time.txt  # 清空 time.txt
+
+for i in {1..10}; do
+  echo "run $i" >> time.txt
+  /usr/bin/time -p ./calc \
+    < ../llm_crosslang_test_input_1000000.txt > /dev/null 2>> time.txt
+done
+
+awk '
+  $1=="real"{r+=$2; rc++}
+  $1=="user"{u+=$2; uc++}
+  $1=="sys" {s+=$2; sc++}
+  END{
+    printf("avg_real %.6f\n", r/rc);
+    printf("avg_user %.6f\n", u/uc);
+    printf("avg_sys  %.6f\n", s/sc);
+  }' time.txt | tee time_avg.txt
 ```
 
-#### 示例返回位于`time.txt`
+#### 示例返回位于`time_avg.txt`
 
 ```txt
-real 27.91 // 墙钟时间（从开始到结束你实际等了多久）= 27.91 秒
-user 19.14 // 19.14：CPU 在用户态执行你程序代码的时间（算法、循环、计算）= 19.14 秒
-sys 8.77 // 8.77：CPU 在内核态花的时间（系统调用/IO/内存分配/释放/页缓存等）= 8.77 秒
+avg_real 27.91000 // 墙钟时间（从开始到结束你实际等了多久）= 27.91 秒
+avg_user 19.14000 // 19.14：CPU 在用户态执行你程序代码的时间（算法、循环、计算）= 19.14 秒
+avg_sys 8.77000 // 8.77：CPU 在内核态花的时间（系统调用/IO/内存分配/释放/页缓存等）= 8.77 秒
 ```
 
 ---
