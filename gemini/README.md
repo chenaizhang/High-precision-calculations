@@ -1,4 +1,4 @@
-# 迁移重构报告 (Trae)
+# 迁移重构报告 (gemini)
 
 ## (1) 旧代码行为总结（落地版）
 
@@ -54,7 +54,7 @@
 ### 文件树
 
 ```
-Trae/
+gemini/
   Cargo.toml
   README.md
   src/
@@ -93,7 +93,7 @@ Trae/
 运行项目内置的单元测试，验证解析、加减乘除及舍入逻辑的正确性：
 
 ```bash
-cd Trae
+cd gemini
 cargo test
 ```
 
@@ -102,7 +102,7 @@ cargo test
 启动 CLI 程序，手动输入数据进行测试：
 
 ```bash
-cd Trae
+cd gemini
 cargo run
 ```
 
@@ -113,7 +113,7 @@ cargo run
 运行 1,000,000 条数据，测试 10 次并计算平均用时（需准备测试数据文件 `../llm_crosslang_test_input_1000000.txt`）：
 
 ```bash
-cd Trae
+cd gemini
 
 cargo build --release
 
