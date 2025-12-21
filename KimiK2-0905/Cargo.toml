@@ -1,0 +1,22 @@
+[package]
+name = "high_precision_calculations"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "high_precision_calculations"
+path = "src/main.rs"
+
+[[bin]]
+name = "test_runner"
+path = "src/test_runner.rs"
+
+[[bin]]
+name = "batch_processor"
+path = "src/batch_processor.rs"
+
+[[bin]]
+name = "batch_processor_cpp_format"
+path = "src/batch_processor_cpp_format.rs"
+
+[dependencies]
