@@ -4,9 +4,12 @@
 
 `./old_code`中包含需要重构的代码，其完成了一个链表高精度计算器，支持加减乘除。代码存在[许多问题](./old_code/代码问题.md)。本测试通过验证重构后代码的**结果一致性**、**运行速度**、**代码可复用性**等指标来验证重构的效果。
 
--  `Codex` 为 GPT 官方模型
-- `GPT5_1`为 cursor 默认模型
-- `Trae`使用 Gemini-3-Pro-Preview (200k)
+-  `Codex` 为 Codex Extra high 模型
+- `GPT5_1` 为 cursor 默认模型
+- `gemini` 为在 Trae 中使用 Gemini-3-Pro-Preview (200k) 模型
+- `DeepSeek` 为在 Trae 中使用 DeepSeek-V3.1 模型
+- `Grok-4` 为在 Trae 中使用 Grok-4 模型
+- `KimiK2-0905` 为在 Trae 中使用 KimiK2-0905 模型
 
 ## 一、验证 C++ 和 Rust 的结果一致性指标
 
