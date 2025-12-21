@@ -44,8 +44,6 @@ g++ -O2 -DNDEBUG -std=c++17 main.cpp -o calc
 ### 运行1,000,000条数据，测试10次，记录平均用时
 
 ```bash
-
-
 : > time.txt  # 清空 time.txt
 
 for i in {1..10}; do
